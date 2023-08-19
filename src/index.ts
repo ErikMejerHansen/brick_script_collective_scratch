@@ -15,7 +15,7 @@ export const startScratch = () => {
 
   // // Setup workspace
   const workspace = ScratchBlocks.inject("blocklyDiv", {
-    media: "/static/media/", // WebPack copies the necessary files from node_modules/scratch-blocks/media
+    media: "/scratch-media/", // WebPack copies the necessary files from node_modules/scratch-blocks/media
     readOnly: false,
     scrollbars: true,
     horizontalLayout: false,
