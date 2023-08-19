@@ -10,12 +10,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        use: ["source-map-loader"],
-        exclude: [path.resolve(__dirname, "node_modules/excalibur")],
-        enforce: "pre",
-      },
-      {
         test: /\.tsx?$/,
         use: "ts-loader",
         exclude: /node_modules/,
@@ -37,15 +31,19 @@ module.exports = {
     extensions: [".tsx", ".ts", ".js"],
   },
   output: {
-    filename: "[name].js",
-    sourceMapFilename: "[file].map",
-    path: path.resolve(__dirname, "dist"),
+    library: 'scratch-boot',
+    filename: '[name].js',
+    // chunkFilename: 'chunks/[name].js',
+    libraryTarget: 'commonjs2'
   },
-  optimization: {
-    splitChunks: {
-      chunks: "all",
-    },
-  },
+  // output: {
+  //   libraryTarget: 'ES6'
+  // },
+  // optimization: {
+  //   splitChunks: {
+  //     chunks: "all",
+  //   },
+  // },
   plugins: [
     new CleanWebpackPlugin({}),
     new CopyPlugin([

@@ -1,4 +1,4 @@
-type ExtensionInfo = {
+export type ExtensionInfo = {
   id: string;
   name: string;
   color1: string;
@@ -6,7 +6,7 @@ type ExtensionInfo = {
   blocks: [{ xml: string }]; //Adding just enough type information
 };
 
-type ExtensionDefinition = {
+export type ExtensionDefinition = {
   id: string;
   name: string;
   color1: string;
@@ -17,7 +17,7 @@ type ExtensionDefinition = {
   menus?: { text: string; value: unknown }[]; // TODO: Fix this typing
 };
 
-type BlockDefinition = {
+export type BlockDefinition = {
   arguments: object;
   blockType: BlockTypes;
   opcode: string;
@@ -28,11 +28,10 @@ type BlockDefinition = {
  * Be aware not all block types defined in block-type.js can be used from an extension.
  * The enum has been filtered to those that can be used.
  */
-enum BlockTypes {
+export enum BlockTypes {
   Boolean = "Boolean",
   Command = "command",
   Hat = "hat",
   Reporter = "reporter",
 }
 
-export { ExtensionInfo, ExtensionDefinition, BlockTypes, BlockDefinition };

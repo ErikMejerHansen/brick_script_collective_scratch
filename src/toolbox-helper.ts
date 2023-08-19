@@ -1,6 +1,6 @@
 import { ExtensionInfo } from "./models";
 
-class ToolboxHelper {
+export class ToolboxHelper {
   private extensions = new Array<ExtensionInfo>();
   private addControlBlocks: boolean;
   private categorySeparator = '<sep gap="36"/>';
@@ -31,9 +31,9 @@ class ToolboxHelper {
     return this.extensions.length === 0
       ? '<category name="Placeholder">'
       : this.extensions.reduce(
-          (acc, extension) => acc + this.categoryTag(extension),
-          ""
-        );
+        (acc, extension) => acc + this.categoryTag(extension),
+        ""
+      );
   }
 
   private categoryTag(extension: ExtensionInfo): string {
@@ -82,4 +82,3 @@ class ToolboxHelper {
         `;
   }
 }
-export default ToolboxHelper;

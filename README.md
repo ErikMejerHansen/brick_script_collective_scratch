@@ -1,2 +1,3 @@
-# example-scratch-project
-A barebones Scratch project example
+# brick-script-collective-scratch
+
+
