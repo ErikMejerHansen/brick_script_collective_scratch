@@ -1,0 +1,41 @@
+{
+  "name": "example-scratch-project",
+  "version": "1.0.0",
+  "description": "A bare bones scratch-based example app",
+  "main": "index.js",
+  "repository": "git@github.com:ErikMejerHansen/example-scratch-project.git",
+  "author": "Erik Mejer Hansen <erik.mejer.hansen@gmail.com>",
+  "scripts": {
+    "webpack-dev-server": "webpack-dev-server",
+    "start": "yarn webpack-dev-server",
+    "build": "webpack",
+    "verify": "yarn verify:prettier && yarn verify:eslint",
+    "verify:prettier": "prettier \"src/**/*.{ts,tsx,scss,json,md}\" --check",
+    "verify:eslint": "eslint \"src/**\""
+  },
+  "license": "MIT",
+  "dependencies": {
+    "scratch-blocks": "^0.1.0-prerelease.20200421135214",
+    "scratch-storage": "^1.3.2",
+    "scratch-vm": "^0.2.0-prerelease.20200402182733"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.30.0",
+    "@typescript-eslint/parser": "^2.30.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^5.1.1",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "html-webpack-plugin": "^4.3.0",
+    "install": "^0.13.0",
+    "npm": "^6.14.4",
+    "prettier": "^2.0.5",
+    "source-map-loader": "^0.2.4",
+    "ts-loader": "^7.0.2",
+    "typescript": "^3.8.3",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  }
+}
