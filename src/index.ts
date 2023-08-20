@@ -67,6 +67,12 @@ export const startScratch = () => {
   const extension = new MyExtension();
   vm.extensionManager._registerInternalExtension(extension);
 
+  vm.addListener("workspaceUpdate", (update) => {
+    console.log(update)
+    const dom = ScratchBlocks.Xml.textToDom(update.xml);
+    ScratchBlocks.Xml.clearWorkspaceAndLoadFromXml(dom, workspace);
+  });
+
   // Load project and we're off
   vm.loadProject(projectData()).then(() => {
     // Start VM :parryparrot:
