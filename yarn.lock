@@ -4594,6 +4594,11 @@
   "resolved" "https://registry.npmjs.org/isobject/-/isobject-3.0.1.tgz"
   "version" "3.0.1"
 
+"isomorphic.js@^0.2.4":
+  "integrity" "sha512-PIeMbHqMt4DnUP3MA/Flc0HElYjMXArsw1qwJZcm9sqR8mq3l8NYizFMty0pWwE/tzIGH3EKK5+jes5mAr85yw=="
+  "resolved" "https://registry.npmjs.org/isomorphic.js/-/isomorphic.js-0.2.5.tgz"
+  "version" "0.2.5"
+
 "isstream@~0.1.2":
   "integrity" "sha512-Yljz7ffyPbrLpLngrMtZ7NduUgVvi6wG9RJ9IUcyCd59YQ911PBJphODUcbOVbqYfxe1wuYf/LJ8PauMRwsM/g=="
   "resolved" "https://registry.npmjs.org/isstream/-/isstream-0.1.2.tgz"
@@ -4800,6 +4805,13 @@
   dependencies:
     "prelude-ls" "~1.1.2"
     "type-check" "~0.3.2"
+
+"lib0@^0.2.74":
+  "integrity" "sha512-sZJeggxq56weXHnBc37dXNnYKGPvdR75zKxGHNc8gLE+ldKCbc4whk0JY2cV17lxuBFtvRd4dIsSh6Cfz7slUw=="
+  "resolved" "https://registry.npmjs.org/lib0/-/lib0-0.2.82.tgz"
+  "version" "0.2.82"
+  dependencies:
+    "isomorphic.js" "^0.2.4"
 
 "libcipm@^4.0.8":
   "integrity" "sha512-IN3hh2yDJQtZZ5paSV4fbvJg4aHxCCg5tcZID/dSVlTuUiWktsgaldVljJv6Z5OUlYspx6xQkbR0efNodnIrOA=="
@@ -8769,6 +8781,21 @@
   "resolved" "https://registry.npmjs.org/xtend/-/xtend-4.0.2.tgz"
   "version" "4.0.2"
 
+"y-array@^10.0.0", "y-array@^10.1.4":
+  "integrity" "sha512-RuIyy51UA+p20mLmXKpSa16Vur6g2kEPMjdE/zh5lBncfi6YRO8pHog+30GhaRZCUJaAMmeNNm6sD6LJv9ZggA=="
+  "resolved" "https://registry.npmjs.org/y-array/-/y-array-10.1.4.tgz"
+  "version" "10.1.4"
+
+"y-map@^10.0.0", "y-map@^10.1.3":
+  "integrity" "sha512-mBohScRLR1uCtL1BBzvH3tYlxXA2WJ/LNgMtVb5KbxHR2F4hOedmAEHWrqqLF23pUGlmPIt7FJzkjIcBsr7fVA=="
+  "resolved" "https://registry.npmjs.org/y-map/-/y-map-10.1.3.tgz"
+  "version" "10.1.3"
+
+"y-xml@^10.0.0":
+  "integrity" "sha512-cMF++mrOcfSn9XmT98bXXU+z3vC9cv2aCYVkj2GS53L4pUuwe3Yt1PR2fBAEsA2zcycD/kIKhLRcMseiRw8SOw=="
+  "resolved" "https://registry.npmjs.org/y-xml/-/y-xml-10.0.0.tgz"
+  "version" "10.0.0"
+
 "y18n@^4.0.0":
   "integrity" "sha512-JKhqTOwSrqNA1NY5lSztJ1GrBiUodLMmIZuLiDaMRJ+itFd+ABVE8XBjOvIWL+rSqNDC74LCSFmlb/U4UZ4hJQ=="
   "resolved" "https://registry.npmjs.org/y18n/-/y18n-4.0.3.tgz"
@@ -8849,3 +8876,10 @@
   dependencies:
     "buffer-crc32" "~0.2.3"
     "fd-slicer" "~1.1.0"
+
+"yjs@^12.0.0", "yjs@^13.6.7", "yjs@>= 12.3.1 < 13.0.0", "yjs@>= 12.3.1 < 14.0.0":
+  "integrity" "sha512-mCZTh4kjvUS2DnaktsYN6wLH3WZCJBLqrTdkWh1bIDpA/sB/GNFaLA/dyVJj2Hc7KwONuuoC/vWe9bwBBosZLQ=="
+  "resolved" "https://registry.npmjs.org/yjs/-/yjs-13.6.7.tgz"
+  "version" "13.6.7"
+  dependencies:
+    "lib0" "^0.2.74"
