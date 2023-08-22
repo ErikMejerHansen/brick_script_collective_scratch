@@ -57,35 +57,30 @@ export const startScratch = (onChangeCallback, workspaceEventChannel) => {
   const vm = new ScratchVM(); // Create a new Scratch vm.
 
   let previousChangeListener = null;
-  const changeListenerFunction = () => {
-    let f = (update) => {
-      console.log("CHANGEESsss")
-      vm.blockListener(update)
+  const changeListenerFunction = (update) => {
+    vm.blockListener(update)
 
 
-      console.log("On change!", update.type)
+    console.log("On change!", update.type)
 
 
-      if (["ui", "endDrag"].includes(update.type)) {
-        return
-      }
-      // There are different types of updates, and we can safely ignore some of those
-      // see here: https://github.com/scratchfoundation/scratch-vm/blob/develop/src/engine/blocks.js#L319
-      // We want
-      // - create
-      // - change
-      // - move
-      // - delete
-      // Ignore comments and var's for now
-
-      const blocksAfterUpdate = JSON.parse(vm.toJSON()).targets[1].blocks
-      const projectAfterUpdate = projectData()
-      projectAfterUpdate.targets[1].blocks = blocksAfterUpdate
-
-      onChangeCallback({ blocks: blocksAfterUpdate, workspace_id: workspace.id })
+    if (["ui", "endDrag"].includes(update.type)) {
+      return
     }
+    // There are different types of updates, and we can safely ignore some of those
+    // see here: https://github.com/scratchfoundation/scratch-vm/blob/develop/src/engine/blocks.js#L319
+    // We want
+    // - create
+    // - change
+    // - move
+    // - delete
+    // Ignore comments and var's for now
 
-    return f;
+    const blocksAfterUpdate = JSON.parse(vm.toJSON()).targets[1].blocks
+    const projectAfterUpdate = projectData()
+    projectAfterUpdate.targets[1].blocks = blocksAfterUpdate
+
+    onChangeCallback({ blocks: blocksAfterUpdate, workspace_id: workspace.id })
   }
 
   // Setup Extension listener
@@ -119,29 +114,21 @@ export const startScratch = (onChangeCallback, workspaceEventChannel) => {
   let loading = false;
 
   // Handle project loads
+  workspace.addChangeListener(changeListenerFunction)
   vm.addListener("workspaceUpdate", (update) => {
     const dom = ScratchBlocks.Xml.textToDom(update.xml);
     ScratchBlocks.Xml.clearWorkspaceAndLoadFromXml(dom, workspace);
-    setTimeout(() => {
-      previousChangeListener = workspace.addChangeListener(changeListenerFunction())
-      loading = false;
-    }, 0);
   });
 
   console.log("workspace:", workspace)
   workspace.setScale(1)
   const loadProject = (project) => {
-    if (loading) {
-      return
-    }
-    workspace.removeChangeListener(previousChangeListener);
-    console.log("Load project")
-    console.log("Preventing loads")
-    loading = true;
-    vm.loadProject(project).then(() => {
-      console.log("unlocking loads")
-      vm.start();
 
+    ScratchBlocks.Events.disable()
+
+    vm.loadProject(project).then(() => {
+      vm.start();
+      ScratchBlocks.Events.enable()
     })
   }
 
