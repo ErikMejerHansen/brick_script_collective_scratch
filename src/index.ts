@@ -24,7 +24,7 @@ export const startScratch = (onChangeCallback, workspaceEventChannel) => {
     zoom: {
       controls: true,
       wheel: true,
-      startScale: 1,
+      startScale: 0.75,
       maxScale: 4,
       minScale: 0.25,
       scaleSpeed: 1.1,
@@ -128,6 +128,7 @@ export const startScratch = (onChangeCallback, workspaceEventChannel) => {
 
     vm.loadProject(project).then(() => {
       vm.start();
+
       ScratchBlocks.Events.enable()
     })
   }

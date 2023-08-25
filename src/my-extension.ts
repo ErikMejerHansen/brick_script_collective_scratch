@@ -7,24 +7,108 @@ class MyExtension {
   public getInfo(): ExtensionDefinition {
     return {
       id: "MyExtension",
-      name: "My Sample Extension",
-      color1: "#CE59FF",
-      color2: "#8B46E8",
-      color3: "#684DFF",
-      menus: null,
+      name: "Consensus",
+      color1: "#F78E69",
+      color2: "#F1BB87",
+      color3: "#F1BB87",
+      menus: {
+        colorMenu: {
+          items: ['Red', 'Green', 'Blue']
+        },
+
+        pressedMenu: {
+          items: ['Pressed', 'Released']
+        },
+      },
       blockIconURI: null,
       blocks: [
         {
           blockType: BlockTypes.Hat,
-          arguments: {},
-          opcode: "always",
-          text: "Will always run",
+          arguments: {
+            COLOR: {
+              type: 'number',
+              menu: 'colorMenu'
+            }
+          },
+          opcode: "any_see_color",
+          text: "Any see [COLOR]",
+        },
+        {
+          blockType: BlockTypes.Hat,
+          arguments: {
+            COLOR: {
+              type: 'number',
+              menu: 'colorMenu'
+            }
+          },
+          opcode: "most_see",
+          text: "Most see [COLOR]",
+        },
+        {
+          blockType: BlockTypes.Hat,
+          arguments: {
+            COLOR: {
+              type: 'number',
+              menu: 'colorMenu'
+            }
+          },
+          opcode: "all_see_color",
+          text: "All see [COLOR]",
+        },
+
+        {
+          blockType: BlockTypes.Hat,
+          arguments: {
+            PRESSED: {
+              type: 'number',
+              menu: 'pressedMenu'
+            }
+          },
+          opcode: "any_pressed",
+          text: "Any buttons are [PRESSED]",
+        },
+        {
+          blockType: BlockTypes.Hat,
+          arguments: {
+            PRESSED: {
+              type: 'number',
+              menu: 'pressedMenu'
+            }
+          },
+          opcode: "most_pressed",
+          text: "Most buttons are [PRESSED]",
+        },
+        {
+          blockType: BlockTypes.Hat,
+          arguments: {
+            PRESSED: {
+              type: 'number',
+              menu: 'pressedMenu'
+            }
+          },
+          opcode: "all_pressed",
+          text: "All buttons are [PRESSED]",
         },
         {
           blockType: BlockTypes.Command,
-          arguments: {},
-          opcode: "print",
-          text: "Console printer",
+          arguments: {
+            DURATION: {
+              type: 'number'
+            }
+          },
+          opcode: "turn_cw",
+          text: "turn motors that way for [DURATION] seconds",
+        },
+
+        {
+          blockType: BlockTypes.Command,
+          arguments: {
+            DURATION: {
+              type: 'number'
+            }
+          },
+          opcode: "turn_cw",
+          text: "turn motors this way for [DURATION] seconds",
         },
       ],
     };
