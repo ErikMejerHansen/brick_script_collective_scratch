@@ -41,7 +41,7 @@ class MyExtension {
               menu: 'colorMenu'
             }
           },
-          opcode: "most_see",
+          opcode: "most_see_color",
           text: "Most see [COLOR]",
         },
         {
@@ -97,7 +97,7 @@ class MyExtension {
             }
           },
           opcode: "turn_cw",
-          text: "turn motors that way for [DURATION] seconds",
+          text: "turn motors this way for [DURATION] seconds",
         },
 
         {
@@ -107,20 +107,95 @@ class MyExtension {
               type: 'number'
             }
           },
-          opcode: "turn_cw",
-          text: "turn motors this way for [DURATION] seconds",
+          opcode: "turn_ccw",
+          text: "turn motors that way for [DURATION] seconds",
+        },
+        {
+          blockType: BlockTypes.Command,
+          arguments: {
+          },
+          opcode: "print",
+          text: "debug print",
         },
       ],
     };
   }
-  public always(_args, _blockUtils): boolean {
-    return true;
+
+  public any_see_color(args, _blockUtils): boolean {
+    // console.log("Args:", args["COLOR"]);
+    return false
   }
 
-  public print(args, blockUtils): void {
-    console.log("Print block activated");
-    console.log("Args:", args);
-    console.log("blockUtils:", blockUtils);
+  public most_see_color(args, _blockUtils): boolean {
+    return false
+  }
+
+  public all_see_color(args, _blockUtils): boolean {
+    return false
+  }
+
+  public any_pressed(args, _blockUtils): boolean {
+
+    const forceSensors = this.getAttachedForceSensors()
+    const pressed = forceSensors.filter(it => it.value > 0)
+    const released = forceSensors.filter(it => it.value === 0)
+
+    if (args["PRESSED"] === 'Pressed') {
+      return pressed.length >= 1
+    } else {
+      console.log("any relased?", released.length >= 1
+      )
+      released.length >= 1
+    }
+  }
+
+  public most_pressed(args, blockUtils): boolean {
+    const forceSensors = this.getAttachedForceSensors()
+    const pressed = forceSensors.filter(it => it.value > 0)
+    const released = forceSensors.filter(it => it.value === 0)
+
+    if (args["PRESSED"] === 'Pressed') {
+      return pressed.length >= forceSensors.length / 2
+    } else {
+      released.length >= forceSensors.length / 2
+    }
+  }
+
+  public all_pressed(args, blockUtils): boolean {
+    const forceSensors = this.getAttachedForceSensors()
+    const pressed = forceSensors.filter(it => it.value > 0)
+    const released = forceSensors.filter(it => it.value === 0)
+
+    if (args["PRESSED"] === 'Pressed') {
+      return pressed.length === forceSensors.length
+    } else {
+      released.length === forceSensors.length
+    }
+  }
+
+  public turn_cw(args, blockUtils): void {
+    // console.log("Args:", args["DURATION"]);
+  }
+
+  public turn_ccw(args, blockUtils): void {
+  }
+
+  public print(_args, _blockUtils): void {
+    console.log("Ran block")
+  }
+
+  private getAttachedSensors() {
+    //@ts-ignore
+    const connectedPorts = Array.from(window.robots.values()).flatMap(it => it.ports)
+    const attachedSensors = connectedPorts.map(it => it.attachment).filter(it => it !== 'none')
+
+    return attachedSensors
+  }
+
+  private getAttachedForceSensors() {
+    const attachedForceSensors = this.getAttachedSensors().filter(it => it.type === 'force_sensor')
+
+    return attachedForceSensors
   }
 }
 

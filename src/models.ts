@@ -14,7 +14,7 @@ export type ExtensionDefinition = {
   color3: string;
   blockIconURI: string;
   blocks: BlockDefinition[];
-  menus?: { text: string; value: unknown }[]; // TODO: Fix this typing
+  menus?: any
 };
 
 export type BlockDefinition = {
