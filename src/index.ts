@@ -56,6 +56,11 @@ export const startScratch = (onChangeCallback, workspaceEventChannel) => {
 
   const vm = new ScratchVM(); // Create a new Scratch vm.
 
+  window.addEventListener("phx:selected_leader", () => {
+    console.log("VM start")
+    vm.start()
+  })
+
   let previousChangeListener = null;
   const changeListenerFunction = (update) => {
     vm.blockListener(update)
@@ -120,19 +125,15 @@ export const startScratch = (onChangeCallback, workspaceEventChannel) => {
     ScratchBlocks.Xml.clearWorkspaceAndLoadFromXml(dom, workspace);
   });
 
-  console.log("workspace:", workspace)
-  workspace.setScale(1)
   const loadProject = (project) => {
 
     ScratchBlocks.Events.disable()
-
     vm.loadProject(project).then(() => {
-      vm.start();
-
       ScratchBlocks.Events.enable()
     })
   }
 
   loadProject(projectData())
 }
+
 
