@@ -164,11 +164,11 @@ class MyExtension {
     if (args["PRESSED"] === 'Pressed') {
       return pressed.length >= 1
     } else {
-      released.length >= 1
+      return released.length >= 1
     }
   }
 
-  public most_pressed(args, blockUtils): boolean {
+  public most_pressed(args, _blockUtils): boolean {
     const forceSensors = this.getAttachedForceSensors()
     const pressed = forceSensors.filter(it => it.value > 0)
     const released = forceSensors.filter(it => it.value === 0)
@@ -176,11 +176,11 @@ class MyExtension {
     if (args["PRESSED"] === 'Pressed') {
       return pressed.length >= forceSensors.length / 2
     } else {
-      released.length >= forceSensors.length / 2
+      return released.length >= forceSensors.length / 2
     }
   }
 
-  public all_pressed(args, blockUtils): boolean {
+  public all_pressed(args, _blockUtils): boolean {
     const forceSensors = this.getAttachedForceSensors()
     const pressed = forceSensors.filter(it => it.value > 0)
     const released = forceSensors.filter(it => it.value === 0)
@@ -188,11 +188,11 @@ class MyExtension {
     if (args["PRESSED"] === 'Pressed') {
       return pressed.length === forceSensors.length
     } else {
-      released.length === forceSensors.length
+      return released.length === forceSensors.length
     }
   }
 
-  public turn_cw(args, blockUtils): Promise<void> {
+  public turn_cw(args, _blockUtils): Promise<void> {
     this.sendVmCommand({ command: "turn_cw_for_time", duration: args["DURATION"] })
 
     // Resolve any pending motor promise, this is a interrupt
@@ -210,7 +210,7 @@ class MyExtension {
     return p
   }
 
-  public turn_ccw(args, blockUtils): Promise<void> {
+  public turn_ccw(args, _blockUtils): Promise<void> {
     this.sendVmCommand({ command: "turn_ccw_for_time", duration: args["DURATION"] })
 
     // Resolve any pending motor promise, this is a interrupt
