@@ -7,10 +7,9 @@ import { projectData } from "./project-data";
 import { ToolboxHelper } from "./toolbox-helper";
 import { MyExtension } from "./my-extension";
 
-export const startScratch = (onChangeCallback, workspaceEventChannel) => {
+export const startScratch = (onChangeCallback, workspaceEventChannel, sendVmCommand) => {
   // Clear toolbox: If we don't clear the toolbox the default toolbox will show up.
   const toolboxHelper = new ToolboxHelper(true);
-  console.log(ScratchBlocks)
   ScratchBlocks.Blocks.defaultToolbox = toolboxHelper.buildToolbox();
 
   // // Setup workspace
@@ -40,11 +39,9 @@ export const startScratch = (onChangeCallback, workspaceEventChannel) => {
   workspaceEventChannel.on("workspace_update", payload => {
 
     if (!payload.workspace_id) {
-      console.log("No workspace id")
       return
     }
     if (payload.workspace_id === workspace.id) {
-      console.log("Own event", payload.blocks)
       return
     } else {
       const updatedProject = projectData()
@@ -57,17 +54,11 @@ export const startScratch = (onChangeCallback, workspaceEventChannel) => {
   const vm = new ScratchVM(); // Create a new Scratch vm.
 
   window.addEventListener("phx:selected_leader", () => {
-    console.log("VM start")
     vm.start()
   })
 
-  let previousChangeListener = null;
   const changeListenerFunction = (update) => {
     vm.blockListener(update)
-
-
-    console.log("On change!", update.type)
-
 
     if (["ui", "endDrag"].includes(update.type)) {
       return
@@ -94,7 +85,6 @@ export const startScratch = (onChangeCallback, workspaceEventChannel) => {
   // add our new blocks and menus
 
   vm.addListener("EXTENSION_ADDED", (extensionInfo) => {
-    console.log("Extension added");
     const array = [];
     extensionInfo.blocks.forEach((blockInfo) => {
       array.push(blockInfo.json);
@@ -112,11 +102,9 @@ export const startScratch = (onChangeCallback, workspaceEventChannel) => {
 
   // Load extension. Using _registerInternalExtension we avoid the sandboxing that
   // otherwise happens to extensions.
-  const extension = new MyExtension();
+  const extension = new MyExtension(sendVmCommand);
   const serviceName = vm.extensionManager._registerInternalExtension(extension);
   vm.extensionManager._loadedExtensions.set(extension.getInfo().id, serviceName);
-
-  let loading = false;
 
   // Handle project loads
   workspace.addChangeListener(changeListenerFunction)

@@ -4,6 +4,13 @@ import { ExtensionDefinition, BlockTypes } from "./models";
  * You can find more information here: https://github.com/LLK/scratch-vm/blob/develop/docs/extensions.md
  */
 class MyExtension {
+  private sendVmCommand
+
+
+  constructor(sendVmCommand) {
+    this.sendVmCommand = sendVmCommand
+  }
+
   public getInfo(): ExtensionDefinition {
     return {
       id: "MyExtension",
@@ -93,7 +100,8 @@ class MyExtension {
           blockType: BlockTypes.Command,
           arguments: {
             DURATION: {
-              type: 'number'
+              type: 'number',
+              defaultValue: 3
             }
           },
           opcode: "turn_cw",
@@ -104,7 +112,8 @@ class MyExtension {
           blockType: BlockTypes.Command,
           arguments: {
             DURATION: {
-              type: 'number'
+              type: 'number',
+              defaultValue: 3
             }
           },
           opcode: "turn_ccw",
@@ -122,16 +131,28 @@ class MyExtension {
   }
 
   public any_see_color(args, _blockUtils): boolean {
-    // console.log("Args:", args["COLOR"]);
-    return false
+    const lookingFor = this.colorNameToLWPColorCode(args["COLOR"])
+    const colorSensors = this.getAttachedColorSensors()
+    const seeingColor = colorSensors.filter(it => it.value === lookingFor)
+
+
+    return seeingColor.length >= 1
   }
 
   public most_see_color(args, _blockUtils): boolean {
-    return false
+    const lookingFor = this.colorNameToLWPColorCode(args["COLOR"])
+    const colorSensors = this.getAttachedColorSensors()
+    const seeingColor = colorSensors.filter(it => it.value === lookingFor)
+
+    return seeingColor.length >= colorSensors.length / 2
   }
 
   public all_see_color(args, _blockUtils): boolean {
-    return false
+    const lookingFor = this.colorNameToLWPColorCode(args["COLOR"])
+    const colorSensors = this.getAttachedColorSensors()
+    const seeingColor = colorSensors.filter(it => it.value === lookingFor)
+
+    return seeingColor.length === colorSensors.length
   }
 
   public any_pressed(args, _blockUtils): boolean {
@@ -143,8 +164,6 @@ class MyExtension {
     if (args["PRESSED"] === 'Pressed') {
       return pressed.length >= 1
     } else {
-      console.log("any relased?", released.length >= 1
-      )
       released.length >= 1
     }
   }
@@ -173,11 +192,40 @@ class MyExtension {
     }
   }
 
-  public turn_cw(args, blockUtils): void {
-    // console.log("Args:", args["DURATION"]);
+  public turn_cw(args, blockUtils): Promise<void> {
+    this.sendVmCommand({ command: "turn_cw_for_time", duration: args["DURATION"] })
+
+    // Resolve any pending motor promise, this is a interrupt
+    //@ts-ignore
+    if (window.motorPromiseResolver !== undefined && window.motorPromiseResolver !== null) {
+      //@ts-ignore
+      window.motorPromiseResolver()
+    }
+
+    const p = new Promise<void>((resolve) => {
+      //@ts-ignore
+      window.motorPromiseResolver = resolve
+    })
+
+    return p
   }
 
-  public turn_ccw(args, blockUtils): void {
+  public turn_ccw(args, blockUtils): Promise<void> {
+    this.sendVmCommand({ command: "turn_ccw_for_time", duration: args["DURATION"] })
+
+    // Resolve any pending motor promise, this is a interrupt
+    //@ts-ignore
+    if (window.motorPromiseResolver !== undefined && window.motorPromiseResolver !== null) {
+      //@ts-ignore
+      window.motorPromiseResolver()
+    }
+
+    const p = new Promise<void>((resolve) => {
+      //@ts-ignore
+      window.motorPromiseResolver = resolve
+    })
+
+    return p
   }
 
   public print(_args, _blockUtils): void {
@@ -196,6 +244,28 @@ class MyExtension {
     const attachedForceSensors = this.getAttachedSensors().filter(it => it.type === 'force_sensor')
 
     return attachedForceSensors
+  }
+
+  private getAttachedColorSensors() {
+    const attachedColorSensors = this.getAttachedSensors().filter(it => it.type === 'color_sensor')
+
+    return attachedColorSensors
+  }
+
+  private colorNameToLWPColorCode(colorName: string) {
+    switch (colorName) {
+      case 'Red':
+        return 9
+
+      case 'Green':
+        return 5
+
+      case 'Blue':
+        return 3
+
+      default:
+        return -1
+    }
   }
 }
 
